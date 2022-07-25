@@ -5,7 +5,6 @@ import (
 	"flag"
 	"fmt"
 	"log"
-	"os"
 
 	"github.com/m-q-t/certchainer/pkg/chainer"
 )
@@ -20,7 +19,7 @@ func main() {
 
 	if *urlFlag == "" {
 		flag.Usage()
-		os.Exit(1)
+		return
 	}
 
 	certificateChain := *chainer.GrabCertChain(*urlFlag, *followRedirectsFlag)

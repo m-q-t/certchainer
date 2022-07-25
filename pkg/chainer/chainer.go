@@ -3,6 +3,7 @@ package chainer
 import (
 	"crypto/tls"
 	"crypto/x509"
+	"errors"
 	"log"
 	"net/http"
 )
@@ -69,6 +70,11 @@ func grabPeerCertificates(url string, followRedirects bool) ([]*x509.Certificate
 	if err != nil {
 		log.Printf("Error occured when making HTTP request: %s\n", err)
 		return nil, err
+	}
+
+	if resp.TLS == nil {
+		log.Println("Unable to initialize TLS connection.")
+		return nil, errors.New("missing tls connection info")
 	}
 
 	return resp.TLS.PeerCertificates, nil
