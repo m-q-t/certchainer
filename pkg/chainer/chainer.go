@@ -18,6 +18,7 @@ type Certificate struct {
 	IssuerCommonName     string `json:"issuerCommonName"`
 	CertificateAuthority bool   `json:"certificateAuthority"`
 	SignatureAlgorithm   string `json:"signatureAlgorithm"`
+	Expiration           string `json:"expiration"`
 }
 
 func GrabCertChain(url string, followRedirects bool) *CertificateChain {
@@ -29,12 +30,12 @@ func GrabCertChain(url string, followRedirects bool) *CertificateChain {
 	var certificates []Certificate
 
 	for _, cert := range peerCerts {
-
 		certificates = append(certificates, Certificate{
 			SubjectCommonName:    cert.Subject.CommonName,
 			IssuerCommonName:     cert.Issuer.CommonName,
 			CertificateAuthority: cert.IsCA,
 			SignatureAlgorithm:   cert.SignatureAlgorithm.String(),
+			Expiration:           cert.NotAfter.String(),
 		})
 	}
 
